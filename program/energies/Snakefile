@@ -1,0 +1,32 @@
+# snake file to run the pipeline
+# run python3 ./combine_fits.py ../../data/energy_fits/ ../../data/dispersion_data
+
+import glob
+
+# define directory - energy fits
+energy_fits = "../../data/energy_fits/"
+
+# check if directory exists and contains at least 4 .jack files
+if len(glob.glob(energy_fits + "*.jack")) < 4:
+    raise ValueError("Directory " + energy_fits + " seems to be missing files?")
+else:
+    # touch a file called go_combine
+    open("go.combine", "w").close()
+
+rule combine:
+    input:
+        "go.combine"
+    output:
+        "energies_chosen.pdf"
+    shell:
+        "python3 ./combine_fits.py ../../data/energy_fits/ ../../data/dispersion_data > combine.log && touch energies.done"
+
+# define default rule
+rule all:
+    input:
+        "energies_chosen.pdf"
+
+# define a rule to cleanup
+rule clean:
+    shell:
+        "rm -f energies_chosen.pdf combine.log go.combine"

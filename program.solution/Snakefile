@@ -1,0 +1,38 @@
+# rule to run the correlator Snakefile
+rule run_correlator:
+    output:
+        "correlators/correlators.done"
+    shell:
+        "cd correlators && snakemake -c 8"
+
+# rule to run the combine Snakefile
+rule run_combine:
+    input:
+        "correlators/correlators.done"
+    output:
+        "energies/energies.done"
+    shell:
+        "cd energies && snakemake -c 1"
+
+# rule to run the dispersions Snakefile
+rule run_dispersion:
+    input:
+        "energies/energies.done"
+    output:
+        "dispersion/dispersion_pion.pdf"
+    shell:
+        "cd dispersion && snakemake -c 1"
+
+# Run all run rules from above
+rule all:
+    shell:
+        "snakemake -j 8 run_correlator run_combine run_dispersion"
+
+# clean rule
+rule clean:
+    shell:
+        "cd correlators && snakemake -c 1 clean && cd ../energies && snakemake -c 1 clean && cd ../dispersion && snakemake -c 1 clean"
+
+
+
+        

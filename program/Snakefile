@@ -32,3 +32,7 @@ rule all:
 rule clean:
     shell:
         "cd correlators && snakemake -c 1 clean && cd ../energies && snakemake -c 1 clean && cd ../dispersion && snakemake -c 1 clean"
+
+
+
+        

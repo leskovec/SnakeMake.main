@@ -29,4 +29,4 @@ rule all:
 # define a rule to cleanup
 rule clean:
     shell:
-        "rm -f energies_chosen.pdf combine.log go.combine"
+        "rm -f energies_chosen.pdf combine.log go.combine energies.done"
